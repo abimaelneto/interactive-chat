@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "interactive-chat",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -13,12 +13,19 @@
     "firebase": "^9.19.1",
     "monorepo-example": "*",
     "next": "^13.3.0",
-    "ui": "*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.21.4",
+    "@types/node": "^18.15.11",
+    "@types/react": "^18.0.34",
+    "@types/react-dom": "^18.0.11",
     "@types/uuid": "^9.0.1",
-    "eslint-config-custom": "*",
-    "tsconfig": "*"
+    "eslint": "^8.38.0",
+    "eslint-config-custom": "0.0.0",
+    "prettier": "^2.8.7",
+    "typescript": "^5.0.4"
   }
 }
