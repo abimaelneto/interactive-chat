@@ -1,15 +1,10 @@
-import dynamic from "next/dynamic";
-import { Component, Suspense, useEffect, useState } from "react";
+import React, { Component, Suspense, useEffect, useState } from "react";
 
 const sendAudioToS3 = async (audio: HTMLAudioElement, blob: Blob) => {
   return new Promise((resolve, reject) => {
     fetch("/api/send", {
       body: blob,
       method: "POST",
-      // headers: {
-      //   "Content-Type":
-      //     "multipart/form-data;boundary=----WebKitFormBoundaryyrV7KO0BoCBuDbTL",
-      // },
     })
       .then((res) => res.blob())
       .then((res) => {
