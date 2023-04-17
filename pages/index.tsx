@@ -1,40 +1,27 @@
-import dynamic from "next/dynamic";
-import { Suspense, useEffect } from "react";
+import React from "react";
 
-import { AudioRecorder } from "../components/AudioRecorder";
+import { Stack, Typography, Button } from "@mui/material";
 
-// const { Cart } = dynamic(() => import("cart").then((mod) => mod.Cart), {
-//   suspense: true,
-// });
-import "../firebase.config";
-import { database } from "../firebase.config";
-import { get, onValue, ref } from "firebase/database";
+import Link from "next/link";
 
-export default function Web() {
-  const read = () => {
-    const rootRef = ref(database);
-    onValue(rootRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log(data);
-    });
-    get(rootRef).then((snapshot) => {
-      if (snapshot.exists()) {
-        console.log(snapshot.val());
-      } else {
-        console.log("No data available");
-      }
-    });
-  };
-  useEffect(() => {
-    read();
-  }, []);
+export default function Welcome() {
   return (
-    <div>
-      <h1>Web</h1>
+    <Stack
+      alignItems="center"
+      justifyContent="center"
+      sx={{ width: "100vw", height: "100vh" }}
+      spacing={2}
+    >
+      <Typography variant="h4">Welcome to the Interactive Chat!</Typography>
 
-      <audio id="audio" src=""></audio>
-      <Suspense fallback="...Loading">{/* <Cart /> */}</Suspense>
-      <AudioRecorder />
-    </div>
+      <Stack direction="row" spacing={2}>
+        <Link href="/new">
+          <Button variant="contained">New Chat</Button>
+        </Link>
+        <Link href="/join">
+          <Button>Join existing chat</Button>
+        </Link>
+      </Stack>
+    </Stack>
   );
 }

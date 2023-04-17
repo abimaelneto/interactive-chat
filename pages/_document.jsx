@@ -1,21 +1,24 @@
+import { Stack } from "@mui/material";
 import { Head, Html, Main, NextScript } from "next/document";
 
 export default function Document() {
-  const handleMissingModule = (e) => {
-    console.log("Missing module", e);
-  };
   return (
     <Html>
-      <script
-        src="http://localhost:3001/_next/static/chunks/remoteEntry.js"
-        onError={handleMissingModule}
-        async
-      />
-
-      <Head />
+      <Head>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        />
+      </Head>
       <body>
-        <Main />
-        <NextScript />
+        <Stack sx={{ width: "100vw", height: "100vh" }}>
+          <Main />
+          <NextScript />
+        </Stack>
       </body>
     </Html>
   );
