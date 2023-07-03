@@ -1,11 +1,16 @@
-import React from "react";
-import { Chats } from "components/Chats";
-import { Chat } from "components/Chat";
+import React, { PropsWithChildren } from "react";
 
-export const MainLayout = () => {
+import { UserProvider } from "contexts/user";
+import { ChatProvider } from "contexts/chat";
+import { Stack } from "@mui/material";
+import { useRouter } from "next/router";
+
+export const MainLayout = ({ children }: PropsWithChildren) => {
   return (
-    <>
-      <Chats chats={[]} /> <Chat id="" messages={[]}></Chat>
-    </>
+    <UserProvider>
+      <ChatProvider>
+        <Stack sx={{ width: "100vw", height: "100vh" }}>{children}</Stack>
+      </ChatProvider>
+    </UserProvider>
   );
 };

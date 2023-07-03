@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 
 import { Stack, Typography, Button } from "@mui/material";
 
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { UserContext } from "contexts/user";
 
 export default function Welcome() {
+  const { user } = useContext(UserContext);
+
   return (
     <Stack
       alignItems="center"

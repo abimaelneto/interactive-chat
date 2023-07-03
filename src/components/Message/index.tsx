@@ -1,6 +1,8 @@
 import React from "react";
 import { format } from "date-fns";
-import { Card } from "@mui/material";
+import { Card, Stack, Typography, useTheme } from "@mui/material";
+import { useUser } from "hooks/useUser";
+
 export interface IMessage {
   content?: string;
   type: "text" | "file" | "audio" | "video";
@@ -9,19 +11,33 @@ export interface IMessage {
 }
 
 export const Message = ({ content, type, createdAt, author }: IMessage) => {
+  const { user } = useUser();
   const timestamp = createdAt ? format(new Date(createdAt), "hh:mm") : "";
+  const theme = useTheme();
   return (
     <Card
       sx={{
-        alignSelf: author === "abima" ? "end" : "start",
+        height: "max-content",
+        alignSelf: author === user?.displayName ? "end" : "start",
         my: 2,
-        backgroundColor: author === "abima" ? "primary.main" : "secondary.main",
+        p: 2,
+
         width: "50%",
       }}
     >
-      <p>{content}</p>
-      <p>Type: {type}</p>
-      <p>{timestamp}</p>
+      <Stack>
+        <Typography
+          color={
+            author === user?.displayName ? "primary.main" : "secondary.main"
+          }
+        >
+          {author}
+        </Typography>
+        <p>{content}</p>
+        <Typography variant="button" sx={{ alignSelf: "end" }}>
+          {timestamp}
+        </Typography>
+      </Stack>
     </Card>
   );
 };

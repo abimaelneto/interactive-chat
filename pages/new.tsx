@@ -1,5 +1,7 @@
 import { Button, TextField } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { UserContext } from "contexts/user";
+import { useRouter } from "next/router";
+import { ChangeEvent, useContext, useState } from "react";
 import { createChat } from "use-cases/createChat";
 
 interface IChatInfo {
@@ -9,9 +11,11 @@ interface IChatInfo {
 }
 
 export default function New() {
+  const { user } = useContext(UserContext);
+  const router = useRouter();
   const [chatInfo, setChatInfo] = useState<IChatInfo>({
     title: "",
-    createdBy: "abima",
+    createdBy: user?.displayName || "",
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -19,8 +23,9 @@ export default function New() {
     setChatInfo((old) => ({ ...old, [name]: value }));
   };
 
-  const handleCreateChat = () => {
-    createChat(chatInfo);
+  const handleCreateChat = async () => {
+    const chatId = await createChat(chatInfo);
+    if (chatId) router.push("/chat/" + chatId);
   };
   return (
     <>

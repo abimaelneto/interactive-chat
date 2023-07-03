@@ -1,4 +1,10 @@
-import React, { ChangeEvent, SetStateAction, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { IMessage, Message } from "../Message";
 import { database } from "libs/firebase";
 import {
@@ -7,6 +13,7 @@ import {
   Stack,
   InputAdornment,
   IconButton,
+  Box,
 } from "@mui/material";
 import { Attachment } from "@mui/icons-material";
 import {
@@ -18,9 +25,13 @@ import {
   ref,
   set,
 } from "firebase/database";
+import { UserContext } from "contexts/user";
+import { grey } from "@mui/material/colors";
 
 export interface IChat {
   id: string;
+  title: string;
+  maxUsers: number;
 }
 
 const getMessages = (selectedChat: string, setMessages: Function) => {
@@ -38,7 +49,7 @@ export const Chat = ({ id }: IChat) => {
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState({});
   const chatRef = ref(database, "/chats/" + id + "/messages/");
-
+  const { user } = useContext(UserContext);
   const handleSendMessage = () => {
     const messageId = push(child(ref(database, `/chats/${id}`), "messages"));
 
@@ -46,7 +57,7 @@ export const Chat = ({ id }: IChat) => {
       type: "text",
       content: newMessage,
       createdAt: Date.now(),
-      author: "abima",
+      author: user?.displayName,
     })
       .then(() => {
         console.log("Message send");
@@ -68,14 +79,20 @@ export const Chat = ({ id }: IChat) => {
     return () => unsubscribe();
   }, [id]);
   return (
-    <>
+    <Stack
+      sx={{ p: 2, height: "100vh", overflow: "hidden", background: grey[200] }}
+    >
       <p>CHAT {id}</p>
-      <Stack sx={{ width: "100%" }}>
-        {messages !== "empty" &&
-          Object.keys(messages || {}).length > 0 &&
-          Object.values(messages).map((m) => <Message {...(m as IMessage)} />)}
-      </Stack>
-      <Stack direction="row" sx={{ width: "100%" }}>
+      <Box sx={{ flex: 9, overflowY: "scroll" }}>
+        <Stack sx={{ width: "100%" }}>
+          {messages !== "empty" &&
+            Object.keys(messages || {}).length > 0 &&
+            Object.values(messages).map((m) => (
+              <Message {...(m as IMessage)} />
+            ))}
+        </Stack>
+      </Box>
+      <Stack direction="row" sx={{ width: "100%", flex: 1 }}>
         <TextField
           value={newMessage}
           onChange={handleChangeNewMessage}
@@ -92,6 +109,6 @@ export const Chat = ({ id }: IChat) => {
         />
         <Button onClick={handleSendMessage}>Send</Button>
       </Stack>
-    </>
+    </Stack>
   );
 };

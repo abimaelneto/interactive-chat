@@ -1,5 +1,7 @@
 import { Stack } from "@mui/material";
+import { MainLayout } from "../src/layouts/Main.tsx";
 import { Head, Html, Main, NextScript } from "next/document";
+import "../src/libs/firebase";
 
 export default function Document() {
   return (
@@ -15,10 +17,8 @@ export default function Document() {
         />
       </Head>
       <body>
-        <Stack sx={{ width: "100vw", height: "100vh" }}>
-          <Main />
-          <NextScript />
-        </Stack>
+        <Main />
+        <NextScript />
       </body>
     </Html>
   );
